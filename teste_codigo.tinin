@@ -1,0 +1,18 @@
+var nelson = 123;
+var jhonson = 10.3;
+
+/*
+
+	This piece of code should print xablau!
+
+*/
+
+function chesquedele(int nelson, int jhonson) {
+	if (nelson >= jhonson) {
+		print("xaaaa aaaa aaa aablau!"); // This should print xablau
+	}
+}
+
+while true {
+	chesquedele(nelson, jhonson);
+}
