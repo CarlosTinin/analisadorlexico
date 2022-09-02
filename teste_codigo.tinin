@@ -1,5 +1,6 @@
-var nelson = 123;
-var jhonson = 10.3;
+var nelson = 123; // xablau
+var jhonson = 10.3; /*block comment*/
+var arr[10] = [];
 
 /*
 
