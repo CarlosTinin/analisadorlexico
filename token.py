@@ -1,21 +1,21 @@
 class Token:
 	@staticmethod
-	def generate_token(token_id, token_type, content):
+	def generate_token(token_type, content, line):
 		type_list = [
 			"STRING",
 			"IDENTIFIER",
 			"NUMBER",
 			"LINE_COMMENT",
 			"BLOCK_COMMENT",
-			";",
-			",",
-			"(",
-			")",
-			"[",
-			"]",
-			"{",
-			"}",
-			".",
+			"SEMICOLON",
+			"COMMA",
+			"OPEN_PARENTHESES",
+			"CLOSE_PARENTHESES",
+			"OPEN_BRACKETS",
+			"CLOSE_BRACKETS",
+			"OPEN_CURLY_BRACES",
+			"CLOSE_CURLY_BRACES",
+			"DOT",
 			"STRING_ERROR",
 			"BLOCK_COMMENT_ERROR",
 			"NUMBER_ERROR"
@@ -50,4 +50,4 @@ class Token:
 			if(keywords.get(content)):
 				token_type = keywords.get(content)
 
-		return "< "+ str(token_id) +" | "+ token_type +" | "+ content +" >"
+		return "< "+ str(line) +" | "+ token_type +" | "+ content +" >"
