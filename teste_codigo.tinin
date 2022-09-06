@@ -1,4 +1,4 @@
-var nelson = 123; // xablau
+var		nelson = 123; // xablau
 var jhonson = 10.3; /*block comment*/
 var arr[10] = [];
 var sum = nelson + jhonson;
@@ -21,6 +21,6 @@ function chesquedele(int nelson, int jhonson) {
 	}
 }
 
-while true {
+while 1 || 1 {
 	chesquedele(nelson, jhonson);
 }

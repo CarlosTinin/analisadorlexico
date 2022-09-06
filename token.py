@@ -18,7 +18,24 @@ class Token:
 			"DOT",
 			"STRING_ERROR",
 			"BLOCK_COMMENT_ERROR",
-			"NUMBER_ERROR"
+			"NUMBER_ERROR",
+			"ARITHMETIC_ADDER",
+			"ARITHMETIC_INCREMENT",
+			"ARITHMETIC_DIVISOR",
+			"ARITHMETIC_MULT",
+			"ARITHMETIC_SUBTRACTOR",
+			"ARITHMETIC_DECREMENT",
+			"DIFFERENT",
+			"EQUAL",
+			"LESSER_THAN",
+			"LESSER_EQUAL_THAN",
+			"GREATER_THAN",
+			"GREATER_EQUAL_THAN",
+			"ASSINGMENT",
+			"NOT",
+			"AND",
+			"OR",
+			"INVALID_CHARACTER"
 		]
 
 		keywords = {
@@ -50,4 +67,12 @@ class Token:
 			if(keywords.get(content)):
 				token_type = keywords.get(content)
 
-		return "< "+ str(line) +" | "+ token_type +" | "+ content +" >"
+		token = {
+			"line": str(line),
+			"type": token_type,
+			"content": content
+		}
+
+		return token
+
+		#return "< "+ str(line) +" | "+ token_type +" | "+ content +" >"
