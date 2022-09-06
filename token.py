@@ -17,7 +17,8 @@ class Token:
 			"}",
 			".",
 			"STRING_ERROR",
-			"BLOCK_COMMENT_ERROR"
+			"BLOCK_COMMENT_ERROR",
+			"NUMBER_ERROR"
 		]
 
 		keywords = {

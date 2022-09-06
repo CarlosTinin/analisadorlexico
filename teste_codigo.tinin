@@ -1,6 +1,13 @@
 var nelson = 123; // xablau
 var jhonson = 10.3; /*block comment*/
 var arr[10] = [];
+var sum = nelson + jhonson;
+var sub = nelson - jhonson;
+var sub_2 = nelson - 10;
+++sub;
+sub--;
+var div = nelson / jhonson;
+var mult = jhonson * nelson;
 
 /*
 

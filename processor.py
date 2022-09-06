@@ -21,6 +21,9 @@ class Processor:
 			if(re.match(r'[A-Z]|[a-z]', char)): # this is a identifier | q1 state
 				self.line_accumulator += char
 				self.state = 1
+			elif(re.match(r'[0-9]', char)): # this is a number | q2 state
+				self.line_accumulator += char
+				self.state = 2
 			elif(char == '"'):
 				self.line_accumulator += char
 				self.state = 15
@@ -46,10 +49,35 @@ class Processor:
 			elif(char == '.'):
 				self.store_token_and_reset(self.ids, 13, self.line_accumulator)
 		elif (self.state == 1): # process q1 state
-			if(re.match(r'[A-Z]|[a-z]', char) or re.match(r'[1-9]', char) or (char == '_')):
+			if(re.match(r'[A-Z]|[a-z]', char) or re.match(r'[0-9]', char) or (char == '_')):
 				self.line_accumulator += char
 			else: # build a identifier token and return to process character function
 				self.store_token_and_reset(self.ids, 1, self.line_accumulator)
+				self.process_character(char)
+
+		elif (self.state == 2):
+			if(re.match(r'[0-9]', char)):
+				self.line_accumulator += char
+			elif(char == '.'):
+				self.line_accumulator += char
+				self.state = 6
+			else: # build a number token and return to process character function
+				self.store_token_and_reset(self.ids, 2, self.line_accumulator)
+				self.process_character(char)
+
+		elif (self.state == 6):
+			if(re.match(r'[0-9]', char)):
+				self.line_accumulator += char
+				self.state = 7
+			else:
+				self.store_token_and_reset(self.ids, 16, self.line_accumulator)
+				self.process_character(char)
+
+		elif (self.state == 7):
+			if(re.match(r'[0-9]', char)):
+				self.line_accumulator += char
+			else:
+				self.store_token_and_reset(self.ids, 2, self.line_accumulator)
 				self.process_character(char)
 
 		elif (self.state == 11):
