@@ -224,6 +224,6 @@ class Processor:
 		return self.token_list;
 
 	def store_token_and_reset(self, token_type, line):
-		self.token_list.append(token.Token.generate_token(token_type, self.line_accumulator, line))
+		self.token_list.append(token.Token.generate_token(token_type, self.line_accumulator, line+1))
 		self.state = 0
 		self.line_accumulator = ''
