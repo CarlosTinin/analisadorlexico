@@ -1,4 +1,5 @@
-import token
+from tokentype import TokenType
+from token import Token
 import re
 
 class Processor:
@@ -13,15 +14,15 @@ class Processor:
 				self.process_character(char, line_key)
 		else:
 			if (self.state ==  13):
-				self.store_token_and_reset(15, line_key)
+				self.store_token_and_reset(TokenType.BLOCK_COMMENT_ERROR, line_key)
 
 	def process_character(self, char, line_key):
 		match self.state:
 			case 0:
-				if(re.match(r'[A-Z]|[a-z]', char)): # this is a identifier | q1 state
+				if(re.match(r'[A-Z]|[a-z]', char)):
 					self.line_accumulator += char
 					self.state = 1
-				elif(re.match(r'[0-9]', char)): # this is a number | q2 state
+				elif(re.match(r'[0-9]', char)):
 					self.line_accumulator += char
 					self.state = 2
 				elif(char == "+"):
@@ -29,7 +30,7 @@ class Processor:
 					self.state = 3
 				elif(char == "*"):				
 					self.line_accumulator += char
-					self.store_token_and_reset(20, line_key)
+					self.store_token_and_reset(TokenType.ARITHMETIC_MULT, line_key)
 				# elif(char == "-"):
 				# 	self.line_accumulator += char
 				# 	self.state = 4
@@ -54,46 +55,46 @@ class Processor:
 				elif(char == '"'):
 					self.line_accumulator += char
 					self.state = 15
-				elif(char == '/'): # this can be a aritmetic operator, a line comment or a block comment | q11 state
+				elif(char == '/'):
 					self.line_accumulator += char
 					self.state = 11
 				elif(char == ';'):
 					self.line_accumulator += char
-					self.store_token_and_reset(5, line_key)
+					self.store_token_and_reset(TokenType.SEMICOLON, line_key)
 				elif(char == ','):
 					self.line_accumulator += char
-					self.store_token_and_reset(6, line_key)
+					self.store_token_and_reset(TokenType.COMMA, line_key)
 				elif(char == '('):
 					self.line_accumulator += char
-					self.store_token_and_reset(7, line_key)
+					self.store_token_and_reset(TokenType.OPEN_PARENTHESES, line_key)
 				elif(char == ')'):
 					self.line_accumulator += char
-					self.store_token_and_reset(8, line_key)
+					self.store_token_and_reset(TokenType.CLOSE_PARENTHESES, line_key)
 				elif(char == '['):
 					self.line_accumulator += char
-					self.store_token_and_reset(9, line_key)
+					self.store_token_and_reset(TokenType.OPEN_BRACKETS, line_key)
 				elif(char == ']'):
 					self.line_accumulator += char
-					self.store_token_and_reset(10, line_key)
+					self.store_token_and_reset(TokenType.CLOSE_BRACKETS, line_key)
 				elif(char == '{'):
 					self.line_accumulator += char
-					self.store_token_and_reset(11, line_key)
+					self.store_token_and_reset(TokenType.OPEN_CURLY_BRACES, line_key)
 				elif(char == '}'):
 					self.line_accumulator += char
-					self.store_token_and_reset(12, line_key)
+					self.store_token_and_reset(TokenType.CLOSE_CURLY_BRACES, line_key)
 				elif(char == '.'):
 					self.line_accumulator += char
-					self.store_token_and_reset(13, line_key)
+					self.store_token_and_reset(TokenType.DOT, line_key)
 				else:
 					if(char != " " and char != "\t" and char != "\n"):
 						self.line_accumulator += char
-						self.store_token_and_reset(33, line_key)
+						self.store_token_and_reset(TokenType.INVALID_CHARACTER, line_key)
 
-			case 1: # process q1 state
+			case 1:
 				if(re.match(r'[A-Z]|[a-z]', char) or re.match(r'[0-9]', char) or (char == '_')):
 					self.line_accumulator += char
-				else: # build a identifier token and return to process character function
-					self.store_token_and_reset(1, line_key)
+				else:
+					self.store_token_and_reset(TokenType.IDENTIFIER, line_key)
 					self.process_character(char, line_key)
 
 			case 2:
@@ -102,16 +103,16 @@ class Processor:
 				elif(char == '.'):
 					self.line_accumulator += char
 					self.state = 6
-				else: # build a number token and return to process character function
-					self.store_token_and_reset(2, line_key)
+				else:
+					self.store_token_and_reset(TokenType.NUMBER, line_key)
 					self.process_character(char, line_key)
 
 			case 3:
-				if(char == "+"): # this store a ++
+				if(char == "+"):
 					self.line_accumulator += char
-					self.store_token_and_reset(18, line_key)
+					self.store_token_and_reset(TokenType.ARITHMETIC_INCREMENT, line_key)
 				else: #this store a +
-					self.store_token_and_reset(17, line_key)
+					self.store_token_and_reset(TokenType.ARITHMETIC_ADDER, line_key)
 					self.process_character(char, line_key)
 
 			# case 4:
@@ -121,12 +122,13 @@ class Processor:
 			# 	if(char == "-"):
 			# 		self.line_accumulator += char
 			# 		self.store_token_and_reset(21, line_key)
+
 			case 5:
 				if(char == "="):
 					self.line_accumulator += char
-					self.store_token_and_reset(23, line_key)
+					self.store_token_and_reset(TokenType.DIFFERENT, line_key)
 				else:
-					self.store_token_and_reset(30, line_key)
+					self.store_token_and_reset(TokenType.NOT, line_key)
 					self.process_character(char, line_key)
 
 			case 6:
@@ -134,96 +136,96 @@ class Processor:
 					self.line_accumulator += char
 					self.state = 7
 				else:
-					self.store_token_and_reset(16, line_key)
+					self.store_token_and_reset(TokenType.NUMBER_ERROR, line_key)
 					self.process_character(char, line_key)
 
 			case 7:
 				if(re.match(r'[0-9]', char)):
 					self.line_accumulator += char
 				else:
-					self.store_token_and_reset(2, line_key)
+					self.store_token_and_reset(TokenType.NUMBER, line_key)
 					self.process_character(char, line_key)
 
 			case 8:
 				if(char == "="):
 					self.line_accumulator += char
-					self.store_token_and_reset(24, line_key)
+					self.store_token_and_reset(TokenType.EQUAL, line_key)
 				else:
-					self.store_token_and_reset(29, line_key)
+					self.store_token_and_reset(TokenType.ASSINGMENT, line_key)
 					self.process_character(char, line_key)
 
 			case 9:
 				if(char == "="):
 					self.line_accumulator += char
-					self.store_token_and_reset(28, line_key)
+					self.store_token_and_reset(TokenType.GREATER_EQUAL_THAN, line_key)
 				else:
-					self.store_token_and_reset(27, line_key)
+					self.store_token_and_reset(TokenType.GREATER_THAN, line_key)
 					self.process_character(char, line_key)
 
 			case 10:
 				if(char == "="):
 					self.line_accumulator += char
-					self.store_token_and_reset(26, line_key)
+					self.store_token_and_reset(TokenType.LESSER_EQUAL_THAN, line_key)
 				else:
-					self.store_token_and_reset(25, line_key)
+					self.store_token_and_reset(TokenType.LESSER_THAN, line_key)
 					self.process_character(char, line_key)
 
 			case 11:
-				if(char == '/'): # this means that the rest of the line is a comment
+				if(char == '/'):
 					self.line_accumulator += char
 					self.state = 12
-				elif(char == '*'): # this means that is a block comment
+				elif(char == '*'):
 					self.line_accumulator += char
 					self.state = 13
 				else:
-					self.store_token_and_reset(19, line_key)
+					self.store_token_and_reset(TokenType.ARITHMETIC_DIVISOR, line_key)
 					self.process_character(char, line_key)
 
-			case 12: # this is a line block
+			case 12:
 				if(char == "\n"):
-					self.store_token_and_reset(3, line_key)
+					self.store_token_and_reset(TokenType.LINE_COMMENT, line_key)
 				else:
 					self.line_accumulator += char
 
-			case 13: # this is a intermediate state for a block comment 
+			case 13:
 				self.line_accumulator += char
 				if(char == '*'):
 					self.state = 14
 
-			case 14: # this is a block comment 
+			case 14:
 				self.line_accumulator += char
 				if(char == '/'):
-					self.store_token_and_reset(4, line_key)
+					self.store_token_and_reset(TokenType.BLOCK_COMMENT, line_key)
 				else:
 					self.state = 13
 
-			case 15: # this is a string
+			case 15:
 				self.line_accumulator += char
 				if(char == '"'):
-					self.store_token_and_reset(0, line_key)
+					self.store_token_and_reset(TokenType.STRING, line_key)
 				elif(char == '\n'):
-					self.store_token_and_reset(14, line_key)
+					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
 
 			case 16:
 				if (char == "&"):
 					self.line_accumulator += char
-					self.store_token_and_reset(31, line_key)
+					self.store_token_and_reset(TokenType.AND, line_key)
 				else:
-					self.store_token_and_reset(33, line_key)
+					self.store_token_and_reset(TokenType.INVALID_CHARACTER, line_key)
 					self.process_character(char, line_key)
 
 			case 17:
 				if (char == "|"):
 					self.line_accumulator += char
-					self.store_token_and_reset(32, line_key)
+					self.store_token_and_reset(TokenType.OR, line_key)
 				else:
-					self.store_token_and_reset(33, line_key)
+					self.store_token_and_reset(TokenType.INVALID_CHARACTER, line_key)
 					self.process_character(char, line_key)
 
 	def show_token_list(self):
 		return self.token_list;
 
 	def store_token_and_reset(self, token_type, line):
-		self.token_list.append(token.Token.generate_token(token_type, self.line_accumulator, line))
+		self.token_list.append(Token.generate_token(token_type, self.line_accumulator, line))
 		self.state = 0
 		self.line_accumulator = ''

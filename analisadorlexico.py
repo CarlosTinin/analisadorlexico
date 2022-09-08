@@ -1,10 +1,10 @@
-import processor
+from processor import Processor
 
 def main():
 	file = open_file('teste_codigo.tinin');
 	
 	if(file):
-		proc = processor.Processor() 
+		proc = Processor() 
 		proc.process_file(file)
 
 		print(proc.show_token_list())
