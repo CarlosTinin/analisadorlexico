@@ -1,4 +1,4 @@
-import processor
+from processor import Processor
 import os
 
 def main():
@@ -6,7 +6,7 @@ def main():
 		for input_file in files:
 			file = open_file(directory+"/"+input_file)
 			if(file):
-				proc = processor.Processor() 
+				proc = Processor() 
 				proc.process_file(file)
 				save_file(input_file, proc.show_token_list())
 
