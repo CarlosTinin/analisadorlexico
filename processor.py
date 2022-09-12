@@ -30,9 +30,9 @@ class Processor:
 				elif(char == "*"):				
 					self.line_accumulator += char
 					self.store_token_and_reset(20, line_key)
-				# elif(char == "-"):
-				# 	self.line_accumulator += char
-				# 	self.state = 4
+				elif(char == "-"):
+					self.line_accumulator += char
+					self.state = 4
 				elif(char == "&"):
 					self.line_accumulator += char
 					self.state = 16
@@ -121,6 +121,22 @@ class Processor:
 			# 	if(char == "-"):
 			# 		self.line_accumulator += char
 			# 		self.store_token_and_reset(21, line_key)
+			case 4:
+				#print(self.token_list[-1]['type'])##verificar
+				if(char == "-"): # this store a --
+					self.line_accumulator += char
+					self.store_token_and_reset(22, line_key)
+				elif(re.match(r'[0-9]', char)):
+					self.line_accumulator += char
+					self.state = 2
+				elif(re.match(r'[A-Z]|[a-z]', char)): # this is a identifier | q1 state
+					self.store_token_and_reset(21, line_key)
+					self.line_accumulator += char
+					self.state = 1
+				else:
+					if(char != " "):
+						self.line_accumulator += char
+					self.state = 18
 			case 5:
 				if(char == "="):
 					self.line_accumulator += char
@@ -218,6 +234,22 @@ class Processor:
 					self.store_token_and_reset(32, line_key)
 				else:
 					self.store_token_and_reset(33, line_key)
+					self.process_character(char, line_key)
+
+			case 18: 
+				if(self.token_list[-1]['type'] =="NUMBER" or self.token_list[-1]['type'] =="IDENTIFIER"):
+					self.store_token_and_reset(21, line_key)
+					self.process_character(char, line_key)
+				elif(re.match(r'[0-9]', char)):
+					self.line_accumulator += char
+					self.state = 2
+				elif(re.match(r'[A-Z]|[a-z]', char)): # this is a identifier | q1 state
+					self.line_accumulator += char
+					self.state = 1
+				elif(char == " "):
+					self.state = 18
+				else:
+					self.store_token_and_reset(21, line_key)
 					self.process_character(char, line_key)
 
 	def show_token_list(self):
