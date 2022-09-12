@@ -9,6 +9,14 @@ sub--;
 var div = nelson / jhonson;
 var mult = jhonson * nelson;
 
+var x = --5;
+var y = - 98.5;
+var m = - - 10;
+z = x - -ya;
+teste
+---x;
+
+x - ----y+2;
 /*
 
 	This piece of code should print xablau!

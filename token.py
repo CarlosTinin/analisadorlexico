@@ -1,42 +1,45 @@
+from unicodedata import category
+
+
 class Token:
 	@staticmethod
 	def generate_token(token_type, content, line):
-		type_list = [
-			"STRING",
-			"IDENTIFIER",
-			"NUMBER",
-			"LINE_COMMENT",
-			"BLOCK_COMMENT",
-			"SEMICOLON",
-			"COMMA",
-			"OPEN_PARENTHESES",
-			"CLOSE_PARENTHESES",
-			"OPEN_BRACKETS",
-			"CLOSE_BRACKETS",
-			"OPEN_CURLY_BRACES",
-			"CLOSE_CURLY_BRACES",
-			"DOT",
-			"STRING_ERROR",
-			"BLOCK_COMMENT_ERROR",
-			"NUMBER_ERROR",
-			"ARITHMETIC_ADDER",
-			"ARITHMETIC_INCREMENT",
-			"ARITHMETIC_DIVISOR",
-			"ARITHMETIC_MULT",
-			"ARITHMETIC_SUBTRACTOR",
-			"ARITHMETIC_DECREMENT",
-			"DIFFERENT",
-			"EQUAL",
-			"LESSER_THAN",
-			"LESSER_EQUAL_THAN",
-			"GREATER_THAN",
-			"GREATER_EQUAL_THAN",
-			"ASSINGMENT",
-			"NOT",
-			"AND",
-			"OR",
-			"INVALID_CHARACTER"
-		]
+		type_list = {
+			"STRING": "CAC",
+			"IDENTIFIER": "IDE",
+			"NUMBER": "NRO",
+			"LINE_COMMENT": "LCO",
+			"BLOCK_COMMENT": "BCO",
+			"SEMICOLON": "DEL",
+			"COMMA": "DEL",
+			"OPEN_PARENTHESES": "DEL",
+			"CLOSE_PARENTHESES": "DEL",
+			"OPEN_BRACKETS": "DEL",
+			"CLOSE_BRACKETS": "DEL",
+			"OPEN_CURLY_BRACES": "DEL",
+			"CLOSE_CURLY_BRACES": "DEL",
+			"DOT": "DEL",
+			"STRING_ERROR": "CMF",
+			"BLOCK_COMMENT_ERROR": "CoMF",
+			"NUMBER_ERROR": "NMF",
+			"ARITHMETIC_ADDER": "ART",
+			"ARITHMETIC_INCREMENT": "ART",
+			"ARITHMETIC_DIVISOR": "ART",
+			"ARITHMETIC_MULT": "ART",
+			"ARITHMETIC_SUBTRACTOR": "ART",
+			"ARITHMETIC_DECREMENT": "ART",
+			"DIFFERENT": "REL",
+			"EQUAL": "REL",
+			"LESSER_THAN": "REL",
+			"LESSER_EQUAL_THAN": "REL",
+			"GREATER_THAN": "REL",
+			"GREATER_EQUAL_THAN": "REL",
+			"ASSINGMENT": "REL",
+			"NOT": "LOG",
+			"AND": "LOG",
+			"OR": "LOG",
+			"INVALID_CHARACTER": "CIN"
+		}
 
 		keywords = {
 			"var": "VAR",
@@ -61,18 +64,18 @@ class Token:
 			"false": "FALSE",
 		}
 
-		token_type = type_list[token_type]
-		
+		token_type = list(type_list)[token_type]
+		token_category =type_list[token_type]
 		if token_type == 'IDENTIFIER':
 			if(keywords.get(content)):
 				token_type = keywords.get(content)
+				token_category ="PRE"
 
 		token = {
 			"line": str(line),
 			"type": token_type,
-			"content": content
+			"content": content,
+			"category": token_category
 		}
 
 		return token
-
-		#return "< "+ str(line) +" | "+ token_type +" | "+ content +" >"

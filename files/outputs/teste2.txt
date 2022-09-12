@@ -1,27 +1,20 @@
-1 STRING "#"
-3 IDENTIFIER a
-4 IDENTIFIER b
-5 IDENTIFIER c
-6 IDENTIFIER aaaaa
-8 STRING "Isso é uma string"
-8 IDENTIFIER kjadhkjsh
-8 STRING "outra"
-8 STRING "mais uma"
-9 STRING "mais uma nova string"
-10 PRINT print
-10 OPEN_PARENTHESES (
-10 CLOSE_PARENTHESES )
-11 PRINT print
-11 OPEN_PARENTHESES (
-11 STRING "isso é uma string"
-11 CLOSE_PARENTHESES )
-11 BLOCK_COMMENT /*  comentário*/
-15 BLOCK_COMMENT /* 
-  
-  
- comentáaaaario 
- */
-15 BLOCK_COMMENT /*/*/
-15 ARITHMETIC_DIVISOR /
+1 CAC "#"
+3 IDE a
+4 IDE b
+5 IDE c
+6 IDE aaaaa
+8 CAC "Isso é uma string"
+8 IDE kjadhkjsh
+8 CAC "outra"
+8 CAC "mais uma"
+9 CAC "mais uma nova string"
+10 PRE print
+10 DEL (
+10 DEL )
+11 PRE print
+11 DEL (
+11 CAC "isso é uma string"
+11 DEL )
+15 ART /
 
-15 BLOCK_COMMENT_ERROR /*/
+15 CoMF /*/
