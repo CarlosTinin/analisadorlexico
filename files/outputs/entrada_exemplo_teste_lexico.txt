@@ -28,11 +28,9 @@
 8 DEL )
 8 DEL ;
 
-4 CIN @
+4 TMF @
 5 CMF "teste
-
 7 CMF "mensagem);
-
-13 CoMF /* exa869 mi processadores de 
+13 CoMF /* exa869 mi processadores de progmdkm
 
 		linguagem de programacao

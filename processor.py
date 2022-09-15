@@ -204,13 +204,16 @@ class Processor:
 					self.store_token_and_reset(TokenType.BLOCK_COMMENT, line_key)
 				else:
 					self.state = 13
-
-			case 15:
-				self.line_accumulator += char
+					
+			case 15: # this is a string
+				#self.line_accumulator += char
 				if(char == '"'):
+					self.line_accumulator += char
 					self.store_token_and_reset(TokenType.STRING, line_key)
 				elif(char == '\n'):
 					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
+				else:
+					self.line_accumulator += char
 
 			case 16:
 				if (char == "&"):
