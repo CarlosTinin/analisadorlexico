@@ -38,7 +38,7 @@ class Token:
 			"NOT": "LOG",
 			"AND": "LOG",
 			"OR": "LOG",
-			"INVALID_CHARACTER": "CIN"
+			"INVALID_CHARACTER": "TMF"
 		}
 
 		keywords = {

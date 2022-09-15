@@ -22,7 +22,10 @@ x - ----y+2;
 	This piece of code should print xablau!
 
 */
+aa
+_x
 
+cont =a++ - 3
 function chesquedele(int nelson, int jhonson) {
 	if (nelson >= jhonson) {
 		print("xaaaa aaaa aaa aablau!"); // This should print xablau

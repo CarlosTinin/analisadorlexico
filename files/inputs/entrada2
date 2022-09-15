@@ -3,11 +3,11 @@ exemplo teste;
 real f = 3.0;
 @
 texto msg = "teste
+x = 2..1.
 if ( f >= -10) && (f < ) 
 	print("mensagem);
-	print("mens@gem");
+	print("menÇagem");
 // exemplo de teste do lexico
-
-/* exa869 mi processadores de progmdkm
-
+print("Mens@gem")
+/* exa869 mi processadores de
 		linguagem de programacao

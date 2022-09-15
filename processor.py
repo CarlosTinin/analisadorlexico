@@ -206,11 +206,14 @@ class Processor:
 					self.state = 13
 
 			case 15: # this is a string
-				self.line_accumulator += char
+				#self.line_accumulator += char
 				if(char == '"'):
+					self.line_accumulator += char
 					self.store_token_and_reset(0, line_key)
 				elif(char == '\n'):
 					self.store_token_and_reset(14, line_key)
+				else:
+					self.line_accumulator += char
 
 			case 16:
 				if (char == "&"):

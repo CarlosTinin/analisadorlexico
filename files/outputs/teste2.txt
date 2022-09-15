@@ -13,8 +13,29 @@
 10 DEL )
 11 PRE print
 11 DEL (
-11 CAC "isso Ã© uma string"
+11 CAC "isso Ã© uma stringgggggggggggggggggggggg"
 11 DEL )
-15 ART /
+13 IDE x
+15 IDE cont
+15 REL =
+15 IDE a
+15 ART ++
+15 NRO -3
+16 IDE z
+16 REL =
+16 IDE b
+16 ART *
+16 IDE a
+17 IDE teste
+17 REL =
+17 IDE str
+17 LOG !
+17 IDE ng
+18 IDE coment
+18 IDE aaaario
+19 ART *
 
-15 CoMF /*/
+13 TMF _
+17 TMF _
+18 TMF Ã
+18 TMF ¡

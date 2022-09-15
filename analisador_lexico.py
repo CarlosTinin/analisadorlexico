@@ -26,7 +26,6 @@ def save_file(file_name, token_list):
 	for token in token_list:
 		
 		token_line= token['line']+" "+token['category']+" "+token['content']+"\n"
-	
 		#stores all errors to append in the end of file
 		if ("ERROR" in token['type']  or "INVALID" in token['type']):
 			errors += token_line
