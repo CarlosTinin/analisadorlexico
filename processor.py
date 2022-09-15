@@ -204,16 +204,18 @@ class Processor:
 					self.store_token_and_reset(TokenType.BLOCK_COMMENT, line_key)
 				else:
 					self.state = 13
-					
+
 			case 15: # this is a string
-				#self.line_accumulator += char
 				if(char == '"'):
 					self.line_accumulator += char
 					self.store_token_and_reset(TokenType.STRING, line_key)
 				elif(char == '\n'):
 					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
+				elif(ord(char) >= 34 and ord(char) <= 166):
+					self.line_accumulator += char
 				else:
 					self.line_accumulator += char
+					self.state = 19
 
 			case 16:
 				if (char == "&"):
@@ -246,6 +248,15 @@ class Processor:
 				else: #stores a aritmetic operator
 					self.store_token_and_reset(TokenType.ARITHMETIC_SUBTRACTOR, line_key)
 					self.process_character(char, line_key)
+
+			case 19:
+				if(char == '"'):
+					self.line_accumulator += char
+					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
+				elif(char == '\n'):
+					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
+				elif(ord(char) >= 34 and ord(char) <= 166):
+					self.line_accumulator += char
 
 	def show_token_list(self):
 		return self.token_list;

@@ -5,7 +5,8 @@ real f = 3.0;
 texto msg = "teste
 if ( f >= -10) && (f < ) 
 	print("mensagem);
-	print("mens@gem");
+	print("mens@gem);
+	print("mençagem");
 // exemplo de teste do lexico
 
 /* exa869 mi processadores de progmdkm
