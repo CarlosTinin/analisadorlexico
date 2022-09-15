@@ -1,0 +1,20 @@
+1 CAC "#"
+3 IDE a
+4 IDE b
+5 IDE c
+6 IDE aaaaa
+8 CAC "Isso é uma string"
+8 IDE kjadhkjsh
+8 CAC "outra"
+8 CAC "mais uma"
+9 CAC "mais uma nova string"
+10 IDE print
+10 DEL (
+10 DEL )
+11 IDE print
+11 DEL (
+11 CAC "isso é uma string"
+11 DEL )
+15 ART /
+
+15 CoMF /*/

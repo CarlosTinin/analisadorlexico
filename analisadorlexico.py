@@ -21,15 +21,18 @@ def open_file(file_name):
 		return file
 
 def save_file(file_name, token_list):
-	file = open("files/outputs/"+file_name, 'w')
+	file = open("files/outputs/"+file_name, 'w+')
 	errors="\n"
 	for token in token_list:
-		token_line= token['line']+" "+token['type']+" "+token['content']+"\n"
+		
+		token_line= token['line']+" "+token['category']+" "+token['content']+"\n"
+	
 		#stores all errors to append in the end of file
-		if "ERROR" in token['type']  or "INVALID" in token['type']:
+		if ("ERROR" in token['type']  or "INVALID" in token['type']):
 			errors += token_line
 		else :
-			file.write(token_line)
+			if("COMMENT" not in token['type']):
+				file.write(token_line)
 
 	file.write(errors)
 	file.close()
