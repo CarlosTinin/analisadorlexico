@@ -13,6 +13,8 @@ class Processor:
 			for char in line:
 				self.process_character(char, line_key)
 		else:
+			if(self.state != 0):
+				self.process_character("", line_key)
 			if (self.state ==  13):
 				self.store_token_and_reset(TokenType.BLOCK_COMMENT_ERROR, line_key)
 
