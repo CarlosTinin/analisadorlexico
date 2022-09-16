@@ -4,7 +4,7 @@ from tokentype import keywords
 class Token:
 	@staticmethod
 	def generate_token(token_type, content, line):		
-		# If it's a identifier check the keyword dictionary 
+		token_type = token_type.name
 		type_dict = {
 			"STRING": "CAC",
 			"IDENTIFIER": "IDE",
@@ -65,7 +65,7 @@ class Token:
 			"false": "FALSE",
 		}
 
-		token_category = type_dict.get(token_type.name)
+		token_category = type_dict.get(token_type)
 
 		if token_type == 'IDENTIFIER':
 			if(keywords.get(content)):
@@ -74,7 +74,7 @@ class Token:
 
 		token = {
 			"line": str(line),
-			"type": token_type.name,
+			"type": token_type,
 			"content": content,
 			"category": token_category
 		}
