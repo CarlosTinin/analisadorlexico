@@ -105,6 +105,7 @@ class Processor:
 				elif(char == '.'):
 					self.line_accumulator += char
 					self.state = 6
+
 				else:
 					self.store_token_and_reset(TokenType.NUMBER, line_key)
 					self.process_character(char, line_key)
@@ -120,6 +121,9 @@ class Processor:
 				if(char == "-"): # this store a --
 					self.line_accumulator += char
 					self.store_token_and_reset(TokenType.ARITHMETIC_DECREMENT, line_key)
+				elif(self.token_list[-1]['line'] == str(line_key+1) and (self.token_list[-1]['type'] =="NUMBER" or self.token_list[-1]['type'] =="IDENTIFIER")):# checks if the last token was a number or identifier
+					self.store_token_and_reset(TokenType.ARITHMETIC_SUBTRACTOR, line_key)
+					self.process_character(char, line_key)
 				elif(re.match(r'[0-9]', char)): # checks if is - followed by number
 					self.line_accumulator += char
 					self.state = 2
@@ -213,7 +217,7 @@ class Processor:
 					self.store_token_and_reset(TokenType.STRING, line_key)
 				elif(char == '\n'):
 					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
-				elif(ord(char) >= 34 and ord(char) <= 166):
+				elif(ord(char) >= 32 and ord(char) <= 166):
 					self.line_accumulator += char
 				else:
 					self.line_accumulator += char
@@ -236,10 +240,10 @@ class Processor:
 					self.process_character(char, line_key)
 
 			case 18: 
-				if(self.token_list[-1]['type'] =="NUMBER" or self.token_list[-1]['type'] =="IDENTIFIER"):# checks if the last token was a number or identifier
-					self.store_token_and_reset(TokenType.ARITHMETIC_SUBTRACTOR, line_key)
-					self.process_character(char, line_key)
-				elif(re.match(r'[0-9]', char)): # checks if after the space there is a number
+				if(self.token_list[-1]['line'] == str(line_key+1) and (self.token_list[-1]['type'] =="NUMBER" or self.token_list[-1]['type'] =="IDENTIFIER")):# checks if the last token was a number or identifier
+				 	self.store_token_and_reset(TokenType.ARITHMETIC_SUBTRACTOR, line_key)
+				 	self.process_character(char, line_key)
+				if(re.match(r'[0-9]', char)): # checks if after the space there is a number
 					self.line_accumulator += char
 					self.state = 2
 				elif(re.match(r'[A-Z]|[a-z]', char)):# checks if after the space there is a number
@@ -257,7 +261,7 @@ class Processor:
 					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
 				elif(char == '\n'):
 					self.store_token_and_reset(TokenType.STRING_ERROR, line_key)
-				elif(ord(char) >= 34 and ord(char) <= 166):
+				elif(ord(char) >= 32 and ord(char) <= 166):
 					self.line_accumulator += char
 
 	def show_token_list(self):
