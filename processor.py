@@ -88,7 +88,7 @@ class Processor:
 					self.line_accumulator += char
 					self.store_token_and_reset(TokenType.DOT, line_key)
 				else:
-					if(char != " " and char != "\t" and char != "\n"):
+					if(char != " " and char != "\t" and char != "\n" and char != ""):
 						self.line_accumulator += char
 						self.store_token_and_reset(TokenType.INVALID_CHARACTER, line_key)
 
