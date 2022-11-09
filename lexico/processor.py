@@ -1,5 +1,5 @@
-from tokentype import TokenType
-from token import Token
+from lexico.tokentype import TokenType
+from lexico.token import Token
 import re
 
 class Processor:

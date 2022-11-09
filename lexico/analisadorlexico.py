@@ -1,16 +1,20 @@
-from processor import Processor
+from lexico.processor import Processor
 import os
 
-def main():
+def analiseLexica():
+	result = {}
 	for  directory, subdirs, files in os.walk("files/inputs"):
 		for input_file in files:
 			file = open_file(directory+"/"+input_file)
 			if(file):
 				proc = Processor() 
 				proc.process_file(file)
-				save_file(input_file, proc.show_token_list())
+				#save_file(input_file, proc.show_token_list())
+				result[input_file] = proc.show_token_list()
 
 			file.close()
+
+	return result
 
 def open_file(file_name):
 	try:
@@ -35,6 +39,3 @@ def save_file(file_name, token_list):
 
 	file.write(errors)
 	file.close()
-
-
-main()

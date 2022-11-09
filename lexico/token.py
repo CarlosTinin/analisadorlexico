@@ -1,4 +1,4 @@
-from tokentype import keywords
+from lexico.tokentype import keywords
 
 ''' Class Token - Used to generate tokens '''
 class Token:
@@ -73,7 +73,7 @@ class Token:
 				token_category ="PRE"
 
 		token = {
-			"line": str(line),
+			"line": line,
 			"type": token_type,
 			"content": content,
 			"category": token_category
