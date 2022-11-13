@@ -1,0 +1,16 @@
+print("Ola mundo");
+10 * (5 + 1)/2
+1+1
+10*5
+10 + 1 - 2
+!c
+a || (c && b)
+a && b
+b || c
+a && (b || c)
+a && b || c
+a < b
+x >= 3
+while(x < 10){
+    print("ola")
+}
