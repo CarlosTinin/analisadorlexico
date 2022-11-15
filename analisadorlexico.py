@@ -5,6 +5,7 @@ class AnalisadorLexico:
 	def __init__(self):
 		self.proc = Processor() 
 		self.tokens = []
+		
 	def run(self):
 		for  directory, subdirs, files in os.walk("files/inputs"):
 			for input_file in files:

@@ -268,6 +268,7 @@ class Processor:
 		return self.token_list;
 
 	def store_token_and_reset(self, token_type, line):
-		self.token_list.append(Token.generate_token(token_type, self.line_accumulator, line + 1))
+		if token_type != TokenType.BLOCK_COMMENT and token_type != TokenType.BLOCK_COMMENT_ERROR and token_type != TokenType.LINE_COMMENT:
+			self.token_list.append(Token.generate_token(token_type, self.line_accumulator, line + 1))
 		self.state = 0
 		self.line_accumulator = ''

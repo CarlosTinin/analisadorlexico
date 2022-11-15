@@ -1,16 +1,48 @@
-print("Ola mundo");
-10 * (5 + 1)/2
-1+1
-10*5
-10 + 1 - 2
-!c
-a || (c && b)
-a && b
-b || c
-a && (b || c)
-a && b || c
-a < b
-x >= 3
-while(x < 10){
-    print("ola")
+/*struct foo {
+  string b, c, d, e = 88, h = "string", x;
+  int y;
+  string b; 
+}*/
+
+bar extends foo {
+  int hoo = k;
+  foo f;
+}
+
+var {
+  int a = 45;
+  string h, r, e, t, y;
+}
+
+const {
+  boolean b = s[3][t];
+  boolean f = false;
+}
+
+function int sub(int a, int b) {
+  return a + b;
+}
+
+procedure printeMatrix10x10(int ma) {
+  var { int i = 0;
+  int j = 0;
+  }
+  while (i <= 10) {
+    var {int val = mat; }
+    print(val);
+  }
+}
+
+procedure start() {
+  var {int m;}
+  printeMatrix10x10(m);
+
+  var {int v = sub(50, 50);}
+
+  if (v < 800) then {
+    read(v);
+    if (false) then {
+      print("alguma coisa");
+    }
+  }
 }
