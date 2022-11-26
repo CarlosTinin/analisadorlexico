@@ -3,13 +3,13 @@ import os
 
 def analiseLexica():
 	result = {}
-	for  directory, subdirs, files in os.walk("files/inputs"):
+	for  directory, subdirs, files in os.walk("../files/inputs"):
 		for input_file in files:
 			file = open_file(directory+"/"+input_file)
 			if(file):
 				proc = Processor() 
 				proc.process_file(file)
-				#save_file(input_file, proc.show_token_list())
+				save_file(input_file, proc.show_token_list())
 				result[input_file] = proc.show_token_list()
 
 			file.close()
@@ -25,11 +25,11 @@ def open_file(file_name):
 		return file
 
 def save_file(file_name, token_list):
-	file = open("files/outputs/"+file_name, 'w+')
+	file = open("../files/lexical-outputs/"+file_name, 'w+')
 	errors="\n"
 	for token in token_list:
 		
-		token_line= token['line'].zfill(2)+" "+token['category']+" "+token['content']+"\n"
+		token_line= str(token['line']).zfill(2)+" "+token['category']+" "+token['content']+"\n"
 		#stores all errors to append in the end of file
 		if ("ERROR" in token['type']  or "INVALID" in token['type']):
 			errors += token_line
