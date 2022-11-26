@@ -53,10 +53,6 @@ def start():
 			Read()
 		elif tokens_list[token_index]['content'] == "print": 
 			Print()
-		elif tokens_list[token_index]['content'] == "true": 
-			pass
-		elif tokens_list[token_index]['content'] == "false": 
-			pass
 		elif tokens_list[token_index]['content'] == "while": 
 			While()
 		elif tokens_list[token_index]['content'] == "if": 
@@ -79,8 +75,6 @@ def start():
 			identify()
 		elif tokens_list[token_index]['category'] == "NRO":
 			number()
-		elif tokens_list[token_index]['category'] == "CAC":
-			pass
 		else :
 			errorRecovery(tokens_list[token_index], first_start)
 
@@ -117,10 +111,6 @@ def allVars():
 		print(tokens_list[token_index]['content'], end=" ")
 		next()
 		varList() # funcao que verifica as variaveis declaradas
-		#if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
-		#	print(tokens_list[token_index]['content'], end=" ")
-		#	next()
-		#	varList()
 	else : #se o token não for um tipo
 		errorRecovery(tokens_list[token_index], first_type+[";"])  #imprime o erro e vai para o seguinte do tipo que pode ser outros tipos ou ';' 
 		allVars()#continual chamando a funçao que analisa a declaracao das variaveis
@@ -140,13 +130,13 @@ def varList():
 				next()
 				if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
 					allVars()
-				else :
-					pass
-					#matchCloseCBrackets()
 			else :
-				errorRecovery(tokens_list[token_index], ["}"]+ first_type)
-				if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
-					allVars() # chama funcao que trata as declaracões
+				if tokens_list[token_index-1]['content'] == ";" and tokens_list[token_index]['content'] == "}":
+					matchCloseCBrackets
+				else:
+					errorRecovery(tokens_list[token_index], ["}"]+ first_type)
+					if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
+						allVars() # chama funcao que trata as declaracões
 	else : #se o token não for um identificador
 		errorRecovery(tokens_list[token_index], [";", ","]+ first_type)
 		varListSeparation() # funcao que analisa atribuicao ou lista de variaveis: a=10, b, i=0
@@ -157,7 +147,9 @@ def varListSeparation():
 		next()
 		if tokens_list[token_index]['category'] == "NRO": # verifica se é um número
 			number()
-		#se for String?
+		elif tokens_list[token_index]['category'] == "CAC":
+			print(tokens_list[token_index]['content'], end=" ")
+			next()
 		else : # se não for numero é identificador
 			identify()
 		
@@ -167,7 +159,9 @@ def assignment():
 		next()
 		if tokens_list[token_index]['category'] == "NRO":
 			number()
-		#se for String?
+		elif tokens_list[token_index]['category'] == "CAC":
+			print(tokens_list[token_index]['content'], end=" ")
+			next()
 		elif tokens_list[token_index]['category'] == "IDE":
 			identify()
 		else :
@@ -192,7 +186,6 @@ def access():
 		matrixIndex()
 	else:
 		errorRecovery(tokens_list[token_index], [";", ","]+ first_type)
-		#o que vem depois da matriz?
 
 def matrixIndex():
 	identify()
@@ -201,7 +194,6 @@ def matrixIndex():
 		next()
 	else :
 		errorRecovery(tokens_list[token_index], [";", ","]+ first_type)
-		#o que vem depois da matriz?
 	
 #***********************************************************************************************
 # STRUCT
@@ -329,13 +321,11 @@ def Print():
 		#errorRecovery(error, ["PRE", "IDE"])
 
 def printContent():
-	#tratar conteudo 
 	if 'IDE' == tokens_list[token_index]['category']:
 		identify()
 	elif 'CAC' == tokens_list[token_index]['category']:
-		print("String: "+tokens_list[token_index]['content'], end=" ")
+		print(tokens_list[token_index]['content'], end=" ")
 		next()
-		#String()
 	else:
 		errorRecovery(tokens_list[token_index], [";", "}", ")"])
 
@@ -365,7 +355,6 @@ def While():
 			whileContent()
 	else :
 		errorRecovery(tokens_list[token_index], [])
-
 
 def whileContent():
 	identify()
@@ -433,7 +422,6 @@ def function():
 			functionName()
 	else :
 		errorRecovery(tokens_list[token_index], [])
-
 
 def functionName():
 	if('IDE' == tokens_list[token_index]['category']): #verifica se o token é um identificador
@@ -541,7 +529,6 @@ def functionCall():
 		print(tokens_list[token_index]['content'], end=" ")
 		next()
 		matchSemicolon()
-
 	else :
 		errorRecovery(tokens_list[token_index], [";", "PRE", "IDE"])
 
@@ -652,8 +639,6 @@ def termRest():
 			print(tokens_list[token_index]['content'], end=" ")
 			next()
 			factor()
-		#else :
-		#    return
 
 def factor():
 	global tokens_list, token_index
@@ -798,9 +783,6 @@ def identify():
 	elif "." == tokens_list[token_index]['content']:
 		#chama tipo composto
 		compType()
-	#else :
-	#	pass
-		#errorRecovery(tokens_list[token_index], firstBlock+[";", ",", "{", "}", ")"])
 
 #***********************************************************************************************
 # BLOCO
@@ -836,9 +818,6 @@ def block():
 	
 	if tokens_list[token_index]['content'] != "}" and tokens_list[token_index]['content'] !="return" and token_index<len(tokens_list)-1:
 		block()
-	#else:
-	#	pass
-		#errorRecovery(tokens_list[token_index], firstBlock)
 
 def matchCloseCBrackets():
 	if('}' == tokens_list[token_index]['content']): #token que finaliza o bloco de declaração
