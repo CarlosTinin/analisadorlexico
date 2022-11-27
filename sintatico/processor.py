@@ -157,9 +157,11 @@ def  commaSeparation():
 			if tokens_list[token_index-1]['content'] == ";" and tokens_list[token_index]['content'] == "}":
 				matchCloseCBrackets
 			else:
-				errorRecovery(tokens_list[token_index], ["}"]+ first_type)
+				errorRecovery(tokens_list[token_index], ["}", ",", ";"])
 				if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
 					allVars() # chama funcao que trata as declaracões
+				elif tokens_list[token_index]['content'] == ",":
+					varList()
 
 def varListSeparation():
 	if tokens_list[token_index]['content'] == "=": # se token for o operador de atribuiçao
