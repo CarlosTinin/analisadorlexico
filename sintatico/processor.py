@@ -15,7 +15,7 @@ first_type = ['int','real','boolean','string', "IDE"]
 follow_relacional_value = [ '!=' , '==' , '<' , '<=' , '>' , '>=' , '=']
 first_logic_expression = ["!", "IDE", "NRO", "CAC", "(", "true", "false"]
 first_relational_expression = ["IDE", "NRO", "CAC", "(", "true", "false"]
-first_start = ["struct","read","print","while","if","function","procedure","var","const","!","(","{","IDE","NRO", "CAC", ";"]
+first_start = ["struct","read","print","while","if","function","procedure","var","const","!","(","{","IDE"]
 first_block = first_logic_expression + ["print","read","while", "if","var","const"]
 
 class Processor:
@@ -120,7 +120,8 @@ def varList():
 		print(tokens_list[token_index]['content'], end=" ")
 		next()
 		varListSeparation() # funcao que analisa atribuicao ou lista de variáveis: a=10, b, i=0 
-		if tokens_list[token_index]['content'] == ",": #se o proximo token for ','
+		commaSeparation()
+		"""if tokens_list[token_index]['content'] == ",": #se o proximo token for ','
 			print(tokens_list[token_index]['content'], end=" ")
 			next()
 			varList() # continua na analise das variáveis
@@ -136,10 +137,29 @@ def varList():
 				else:
 					errorRecovery(tokens_list[token_index], ["}"]+ first_type)
 					if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
-						allVars() # chama funcao que trata as declaracões
+						allVars() # chama funcao que trata as declaracões"""
 	else : #se o token não for um identificador
-		errorRecovery(tokens_list[token_index], [";", ","]+ first_type)
-		varListSeparation() # funcao que analisa atribuicao ou lista de variaveis: a=10, b, i=0
+		errorRecovery(tokens_list[token_index], [";", ","])
+		commaSeparation() # funcao que analisa atribuicao ou lista de variaveis: a=10, b, i=0
+
+def  commaSeparation():
+	if tokens_list[token_index]['content'] == ",": #se o proximo token for ','
+		print(tokens_list[token_index]['content'], end=" ")
+		next()
+		varList() # continua na analise das variáveis
+	else :
+		if tokens_list[token_index]['content'] == ";":
+			print(tokens_list[token_index]['content'])
+			next()
+			if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
+				allVars()
+		else :
+			if tokens_list[token_index-1]['content'] == ";" and tokens_list[token_index]['content'] == "}":
+				matchCloseCBrackets
+			else:
+				errorRecovery(tokens_list[token_index], ["}"]+ first_type)
+				if tokens_list[token_index]['content'] in first_type or tokens_list[token_index]['category'] in first_type: #se o token for um tipo
+					allVars() # chama funcao que trata as declaracões
 
 def varListSeparation():
 	if tokens_list[token_index]['content'] == "=": # se token for o operador de atribuiçao
@@ -815,9 +835,13 @@ def block():
 		Var()
 	elif tokens_list[token_index]['content'] == "const":
 		Const()
-	
 	if tokens_list[token_index]['content'] != "}" and tokens_list[token_index]['content'] !="return" and token_index<len(tokens_list)-1:
-		block()
+		if tokens_list[token_index]['content'] in first_block or tokens_list[token_index]['category'] in first_block:
+			block()
+		else :
+			next()
+			errorRecovery(tokens_list[token_index], ["}"]+first_block+first_start)
+		
 
 def matchCloseCBrackets():
 	if('}' == tokens_list[token_index]['content']): #token que finaliza o bloco de declaração
@@ -825,19 +849,21 @@ def matchCloseCBrackets():
 		next()
 	else: # se não encontrou '}' sinaliza o erro e continua o programa a partir de start()
 		#error ="Erro: Símbolo inesperado na linha "+tokens_list[token_index]['line']+": "+tokens_list[token_index]['content']
-		errorRecovery(tokens_list[token_index], [])
+		errorRecovery(tokens_list[token_index], first_start+first_block)
 
 #***********************************************************************************************
 # RECUPERAÇÃO DE ERROS
 #***********************************************************************************************
 def errorRecovery(token, followSet):
-	error = "Erro: Símbolo inesperado na linha "+str(token['line'])+": "+token['content']
+	error = "Erro: Símbolo inesperado na linha "+str(token['line'])+": "+str(token['content'])
 	errors_list.append(error)
 	print("\n"+RED+error+RESET)
 	if followSet:
 		while tokens_list[token_index]['content'] not in followSet:
 			next()
-		
+			if token_index >= len(tokens_list)-1:
+				break
+
 #***********************************************************************************************
 # PROXIMO TOKEN
 #***********************************************************************************************
