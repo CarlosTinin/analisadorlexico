@@ -1,0 +1,53 @@
+// Arquivo de teste da gramatica
+
+struct foo {
+  string b, c, d, e, x=1;
+  int y = "oi", our = [10];
+}
+
+bar extends foo {
+  int hoo = k;
+  foo f;
+}
+
+var {
+  int a = 45, cgf =5.3;
+  string h;
+  boolean g;
+  int w;
+}
+
+const {
+  int z= s[3][t];
+  boolean q = false;
+
+}
+
+function int sub(int l, int j) {
+  return l + j;
+}
+
+procedure printeMatrix10x10(int ma) {
+  var { float i = 0;
+  int ri = 0;
+  string mat;
+  }
+  while (i <= 10) {
+    var {int val = mat; }
+    print(val);
+  }
+}
+
+procedure start() {
+  var {int m;}
+  printeMatrix10x10(m);
+  jk=5
+  var {int v = sub(50, 50);}
+
+  if (v < 8.00) then {
+    read(v);
+    if (false) then {
+      print("alguma coisa");
+    }
+  }
+}

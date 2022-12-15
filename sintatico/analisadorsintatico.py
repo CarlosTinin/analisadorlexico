@@ -8,7 +8,7 @@ def analiseSintatica():
 	lexicalList = analiseLexica()
 	for input_file in lexicalList:
 		proc = Processor() 
-		print("\n\______________________________________ "+input_file+" ______________________________________/\n")
+		#print("\n\______________________________________ "+input_file+" ______________________________________/\n")
 		proc.process_tokens(lexicalList[input_file])
 		result[input_file] =proc.errors_list()
 		save_file(input_file, proc.errors_list())

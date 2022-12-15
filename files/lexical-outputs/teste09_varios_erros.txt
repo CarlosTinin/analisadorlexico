@@ -1,0 +1,15 @@
+03 PRE real
+03 NRO 33
+03 DEL ;
+05 PRE string
+05 IDE mens
+05 IDE gem
+07 NRO 123
+07 DEL .
+07 NRO 45
+
+03 NMF 33.
+03 TMF #
+05 TMF @
+07 TMF #
+09 CMF "erro na cadeia. falta fecha aspas
