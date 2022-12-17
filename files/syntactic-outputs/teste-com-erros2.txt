@@ -1,12 +1,1 @@
-Erro: Símbolo inesperado na linha 1: {
-Erro: Símbolo inesperado na linha 2: ,
-Erro: Símbolo inesperado na linha 7: =
-Erro: Símbolo inesperado na linha 10: {
-Erro: Símbolo inesperado na linha 11: int
-Erro: Símbolo inesperado na linha 15: }
-Erro: Símbolo inesperado na linha 19: boolean
-Erro: Símbolo inesperado na linha 23: {
-Erro: Símbolo inesperado na linha 31: 10
-Erro: Símbolo inesperado na linha 33: print
-Erro: Símbolo inesperado na linha 43: {
-Erro: Símbolo inesperado na linha 46: then
+Executado com sucesso!

@@ -47,19 +47,19 @@ class Processor:
 		return semantic_errors_list
 	
 	def reset(self):
-		global tokens_list, errors_list, token_index, start_procedure_flag
+		global tokens_list, result,all_symbols, token_index, start_procedure_flag, syntatic_errors_list,semantic_errors_list
 		tokens_list = []
 		token_index = 0
-		errors_list = []
+		semantic_errors_list = []
+		syntatic_errors_list = []
 		start_procedure_flag = False
+		all_symbols = []
+		result =[]
 
 	def process_tokens(self, tokens):
 		global tokens_list, params_symbols_list
 		tokens_list=tokens
 		start()
-		#print("VARIÁVEIS: ", var_symbols_list,"\n\n")
-		#print("FUNÇÕES: ", func_symbols_list)
-		#print("PARAMETROS: ", params_symbols_list)
 
 
 def insert_var_declaration(insertion):
@@ -215,6 +215,12 @@ def varListSeparation():
 		if tokens_list[token_index]['category'] == "NRO": # verifica se é um número
 			result = [type, ide, content]
 			number()
+		elif tokens_list[token_index]['content'] == "false" or tokens_list[token_index]['content'] == "true": # verifica se é um boleano
+			print(tokens_list[token_index]['content'], end=" ")
+			result = [type, ide, content]
+			if type != "boolean":
+				hasError(tokens_list[token_index], 'boolean')
+			next()
 		elif tokens_list[token_index]['category'] == "CAC":
 			print(tokens_list[token_index]['content'], end=" ")
 			result = [type, ide, content]
@@ -224,19 +230,37 @@ def varListSeparation():
 			matrix()
 		else : # se não for numero é identificador
 			identify()
-			hasError(tokens_list[token_index-1], type)
+			if result and result[0]!=type  and tokens_list[token_index-1]['category'] != "DEL":
+				hasError(tokens_list[token_index-1], type)
 		
 def assignment():
+	global result
 	if tokens_list[token_index]['content'] == "=": # se o token for operador de atribuiçao
 		print(tokens_list[token_index]['content'], end=" ")
 		next()
 		if tokens_list[token_index]['category'] == "NRO":
 			number()
+			matchSemicolon()
 		elif tokens_list[token_index]['category'] == "CAC":
 			print(tokens_list[token_index]['content'], end=" ")
 			next()
+			matchSemicolon()
 		elif tokens_list[token_index]['category'] == "IDE":
+			var_type = result[0]
 			identify()
+			# o tipo da variavel que recebe o valor for diferente do tipo do valor
+			if var_type and var_type != result[0]:
+				hasError(tokens_list[token_index-1], var_type)
+			if ('.' in identify_value or tokens_list[token_index-1]['category'] != "NRO") and tokens_list[token_index-1]['category'] != "IDE" and tokens_list[token_index-1]['category'] != "DEL":
+				result = ["int", None, None]
+			#	hasError(tokens_list[token_index-1], "int")
+	#elif result[0] and result[0] !="int" and tokens_list[token_index-1]['category'] != "DEL":
+	#	hasError(tokens_list[token_index-1], "int")
+			#se for chamda de função não dá match no nesse momento
+			if len(result)==3:
+				pass
+			else:
+				matchSemicolon()
 		else :
 			errorRecovery(tokens_list[token_index], [])
 			#errorRecovery(error, ["PRE", "IDE"])
@@ -263,13 +287,12 @@ def access():
 def matrixIndex():
 	global result
 	identify()
-	if ('.' in identify_value or tokens_list[token_index-1]['category'] != "NRO") and tokens_list[token_index-1]['category'] != "IDE" and tokens_list[token_index-1]['category'] != "DEL":
+	#if ('.' in identify_value or tokens_list[token_index-1]['category'] != "NRO") and tokens_list[token_index-1]['category'] != "IDE" and tokens_list[token_index-1]['category'] != "DEL":
 		#result = ["int", None, None]
-		print(YEL+"aqui"+RESET)
-		hasError(tokens_list[token_index-1], "int")
-	elif result[0] and result[0] !="int" and tokens_list[token_index-1]['category'] != "DEL":
-		hasError(tokens_list[token_index-1], "int")
-		print(YEL+"ola"+RESET)
+	#	hasError(tokens_list[token_index-1], "int")
+	#elif result[0] and result[0] !="int" and tokens_list[token_index-1]['category'] != "DEL":
+	#	hasError(tokens_list[token_index-1], "int")
+		
 
 	if(']'== tokens_list[token_index]['content']):
 		print(tokens_list[token_index]['content'], end=" ")
@@ -512,7 +535,7 @@ def functionName():
 	if('IDE' == tokens_list[token_index]['category']): #verifica se o token é um identificador
 		print(tokens_list[token_index]['content'], end=" ")
 		ide = tokens_list[token_index]['content']
-		insert_func_declaration([ide, type, tokens_list[token_index]['line']])
+		insert_func_declaration([type, ide, tokens_list[token_index]['line']])
 		next()
 		functionParamsBlock() 
 	else :
@@ -793,11 +816,13 @@ def logicOperator():
 			logicValue()
 
 def logicValue():
-	global tokens_list, token_index
+	global tokens_list, token_index, result
 	
-	if 'IDE' == tokens_list[token_index]['category'] or 'true' == tokens_list[token_index]['content'] or  'true' == tokens_list[token_index]['content']:
+	if 'IDE' == tokens_list[token_index]['category'] or 'true' == tokens_list[token_index]['content'] or  'false' == tokens_list[token_index]['content']:
 		print(tokens_list[token_index]['content'], end=" ")
-		hasError(tokens_list[token_index], ['boolean'])
+		if 'IDE' == tokens_list[token_index]['category'] :
+			result = search_declaration(tokens_list[token_index])
+			hasError(tokens_list[token_index], 'boolean')
 		next()
 		return
 	elif '(' == tokens_list[token_index]['content']:
@@ -880,11 +905,13 @@ def identify():
 	result = search_declaration(tokens_list[token_index])
 	next()
 	if "[" == tokens_list[token_index]['content'] :
-		#chama matriz
 		matrix()
 	elif tokens_list[token_index]['content'] in first_term_rest or tokens_list[token_index]['content'] in first_expression_rest:
 		#chama expressao
 		expression()
+	elif "=" == tokens_list[token_index]['content']:
+		#chama atribuicao
+		assignment()
 	elif tokens_list[token_index]['content'] in follow_relacional_value:
 		#chama expressao relacional
 		relationalExpression()
@@ -897,9 +924,6 @@ def identify():
 	elif "extends" == tokens_list[token_index]['content']:
 		#chama extends
 		Extends()
-	elif "=" == tokens_list[token_index]['content']:
-		#chama atribuicao
-		assignment()
 	elif "." == tokens_list[token_index]['content']:
 		#chama tipo composto
 		compType()
@@ -971,7 +995,7 @@ def hasError(token, type):
 		semantic_errors_list.append(error)
 		print("\n"+RED+error+RESET)
 	elif type != result[0]:
-		error = "Erro: Tipo inesperado na linha "+str(token['line'])+": "+str(type)+" deveria ser "+str(result[0])
+		error = "Erro: Tipos incompatíveis na linha "+str(token['line'])+": "+str(type)+" e "+str(result[0])
 		semantic_errors_list.append(error)
 		print("\n"+RED+error+RESET)
 

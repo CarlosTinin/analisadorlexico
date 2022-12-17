@@ -1,9 +1,1 @@
-Erro: Símbolo inesperado na linha 5: @
-Erro: Símbolo inesperado na linha 5: ,
-Erro: Símbolo inesperado na linha 6: $
-Erro: Símbolo inesperado na linha 6: ,
-Erro: Símbolo inesperado na linha 7: #
-Erro: Símbolo inesperado na linha 7: ,
-Erro: Símbolo inesperado na linha 7: flag_3_
-Erro: Símbolo inesperado na linha 7: ;
-Erro: Símbolo inesperado na linha 10: x
+Executado com sucesso!

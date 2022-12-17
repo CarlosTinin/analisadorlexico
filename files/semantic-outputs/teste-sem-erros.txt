@@ -1,12 +1,1 @@
-Erro: Tipo inesperado na linha 4: int deveria ser string
-Erro: Tipo inesperado na linha 5: string deveria ser int
-Erro: Variável não declarada na linha 9
-Erro: Tipo inesperado na linha 14: float deveria ser int
-Erro: Variável não declarada na linha 21
-Erro: Variável não declarada na linha 22
-Erro: Tipo inesperado na linha 31: int deveria ser float
-Erro: Tipo inesperado na linha 35: int deveria ser float
-Erro: Tipo inesperado na linha 36: int deveria ser string
-Erro: Variável não declarada na linha 44
-Erro: Tipo inesperado na linha 45: int deveria ser sub
-Erro: Tipo inesperado na linha 47: float deveria ser int
+Executado com sucesso!
